@@ -19,7 +19,7 @@ int main(int argc,const char* argv[] ){
     uint16_t port = atoi(argv[2]);
     signal(SIGINT,resetHandler);
     EventLoop loop;
-    InetAddress addr(ip,port);
+    InetAddress addr(port,ip);
     ChatServer server(&loop,addr,"chatserver");
 
     server.start();

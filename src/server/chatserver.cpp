@@ -2,6 +2,7 @@
 #include <functional>
 #include"json.hpp"
 #include "chatservice.hpp"
+#include <mymuduo/Logger.h>
 #define ERROR_MSG 999
 using json=nlohmann::json;
 
