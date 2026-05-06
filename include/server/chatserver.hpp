@@ -1,16 +1,13 @@
 #ifndef CHATSERVER_HPP
 #define CHATSERVER_HPP
-#include <muduo/net/TcpServer.h>
-#include <muduo/net/EventLoop.h>
-using namespace muduo;
-using namespace muduo::net;
+#include <mymuduo/TcpServer.h>
 
 class ChatServer
 {
 public:
     ChatServer(EventLoop *loop,
                const InetAddress &listenAddr,
-               const string &nameArg);
+               const std::string &nameArg);
 
     void start();
 

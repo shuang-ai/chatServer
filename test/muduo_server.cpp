@@ -2,10 +2,7 @@
 #include <mymuduo/TcpServer.h>
 #include <mymuduo/Logger.h>
 #include<iostream>
-#include<functional>
 using namespace std;
-// using namespace muduo;
-// using namespace muduo::net;
 /*
 1.组合TcpServer对象
 2.创建EventLoop事件循环对象的指针
@@ -29,7 +26,6 @@ public:
                             Buffer*buf,         //缓冲区
                             Timestamp time){
                                 this->onMessage(conn,buf,time);
-
                 });
 
                 // 设置服务端现成数量，1个I/O线程，3个worker线程

@@ -1,10 +1,9 @@
 #include "chatservice.hpp"
 #include "public.hpp"
-#include <muduo/base/Logging.h>
-#include <iostream>
+#include <mymuduo/Logger.h>
 using namespace std;
 using namespace placeholders;
-using namespace muduo;
+// using namespace muduo;
 // 回调操作
 ChatService::ChatService()
 {
@@ -211,7 +210,7 @@ MsgHander ChatService::getHandler(int msgid)
         // 默认
         return [this, msgid](const TcpConnectionPtr &conn, json &js, Timestamp time)
         {
-            LOG_ERROR << "msgid:" << msgid << " can not find handler!";
+            LOG_ERROR("msgid:can not find handler!");
         };
     }
     else

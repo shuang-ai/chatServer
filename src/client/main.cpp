@@ -9,7 +9,6 @@
 #include <functional>
 using namespace std;
 using json = nlohmann::json;
-
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/types.h>

@@ -4,17 +4,13 @@
 #include"UserModel.hpp"
 #include "friendModel.hpp"
 #include"offlinemessagemodel.hpp"
-#include<muduo/net/TcpConnection.h>
+#include <mymuduo/TcpServer.h>
 #include<functional>
 #include<unordered_map>
 #include<string>
-#include<iostream>
-#include<memory>
 #include<mutex>
 #include"redis.hpp"
 #include"UserModel.hpp"
-using namespace muduo;
-using namespace muduo::net;
 using namespace std;
 #include"json.hpp"
 using json = nlohmann::json;

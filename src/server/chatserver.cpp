@@ -54,8 +54,9 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
     
     // 2. 添加日志，记录收到的原始消息（便于调试）
     // 注意：生产环境可能需要脱敏处理
-    LOG_INFO << "Received message from " << conn->peerAddress().toIpPort() 
-             << ": " << buf;
+    LOG_INFO("Received message from %s: %s",
+             conn->peerAddress().toIpPort().c_str(),
+             buf);
     
     // 3. 使用 try-catch 捕获 JSON 处理过程中可能抛出的所有异常
     //    防止程序因异常而崩溃
@@ -69,7 +70,7 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
         // contains() 检查 JSON 对象是否包含指定的键
         if (!js.contains("msgid"))
         {
-            LOG_ERROR << "Invalid message: missing msgid field, raw: " << buf;
+            LOG_ERROR("Invalid message: missing msgid field, raw: %s", buf);
             
             // 发送错误响应给客户端
             json response;
@@ -84,8 +85,8 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
         // is_number() 检查该字段的值是否是数字类型
         if (!js["msgid"].is_number())
         {
-            LOG_ERROR << "Invalid message: msgid is not a number, type: " 
-                      << js["msgid"].type_name();
+            LOG_ERROR("Invalid message: msgid is not a number, type: %s",
+                      js["msgid"].type_name());
             
             // 发送错误响应给客户端
             json response;
@@ -102,7 +103,7 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
         int msgid = js["msgid"].get<int>();
         
         // 3.5 记录消息类型
-        LOG_DEBUG << "Received msgid: " << msgid;
+        LOG_DEBUG("Received msgid: %d", msgid);
         
         // 3.6 根据消息 ID 获取对应的业务处理器
         // ChatService 是单例模式，负责管理所有消息处理器
@@ -113,7 +114,7 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
         // 如果找不到对应的处理器，getHandler 可能返回 nullptr 或默认处理器
         if (!msgHandler)
         {
-            LOG_ERROR << "No handler found for msgid: " << msgid;
+            LOG_ERROR("No handler found for msgid: %d", msgid);
             
             // 发送错误响应给客户端
             json response;
@@ -133,8 +134,8 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
     //    parse_error 在 json::parse() 解析失败时抛出
     catch (const json::parse_error& e)
     {
-        LOG_ERROR << "JSON parse error: " << e.what();
-        LOG_ERROR << "Raw message: " << buf;
+        LOG_ERROR("JSON parse error: %s", e.what());
+        LOG_ERROR("Raw message: %s", buf);
         
         // 发送错误响应给客户端，告知消息格式错误
         json response;
@@ -147,8 +148,8 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
     //    type_error 在 get<int>() 等类型转换失败时抛出
     catch (const json::type_error& e)
     {
-        LOG_ERROR << "JSON type error: " << e.what();
-        LOG_ERROR << "Message: " << buf;
+        LOG_ERROR("JSON type error: %s", e.what());
+        LOG_ERROR("Message: %s", buf);
         
         // 发送错误响应给客户端
         json response;
@@ -161,8 +162,8 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
     //    out_of_range 在使用 at() 访问不存在的键时抛出
     catch (const json::out_of_range& e)
     {
-        LOG_ERROR << "JSON out of range: " << e.what();
-        LOG_ERROR << "Message: " << buf;
+        LOG_ERROR("JSON out of range: %s", e.what());
+        LOG_ERROR("Message: %s", buf);
         
         // 发送错误响应给客户端
         json response;
@@ -175,8 +176,8 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
     //    确保所有异常都被捕获，程序不会崩溃
     catch (const std::exception& e)
     {
-        LOG_ERROR << "Unexpected exception: " << e.what();
-        LOG_ERROR << "Message: " << buf;
+        LOG_ERROR("Unexpected exception: %s", e.what());
+        LOG_ERROR("Message: %s", buf);
         
         // 发送通用错误响应
         json response;
@@ -188,8 +189,8 @@ void ChatServer::onMessage(const TcpConnectionPtr &conn,
     // 8. 捕获所有其他未知异常
     catch (...)
     {
-        LOG_ERROR << "Unknown exception caught!";
-        LOG_ERROR << "Message: " << buf;
+        LOG_ERROR("Unknown exception caught!");
+        LOG_ERROR("Message: %s", buf);
         
         // 发送通用错误响应
         json response;

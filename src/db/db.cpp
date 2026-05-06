@@ -16,7 +16,7 @@ MySQL::MySQL()
 {
     _conn = mysql_init(nullptr);
     if (_conn == nullptr) {
-        LOG_ERROR << "mysql_init failed!";
+        LOG_ERROR("mysql_init failed!");
     }
 }
 
@@ -33,7 +33,7 @@ MySQL::~MySQL()
 bool MySQL::connect()
 {
     if (_conn == nullptr) {
-        LOG_ERROR << "MySQL object not initialized";
+        LOG_ERROR("MySQL object not initialized");
         return false;
     }
     
@@ -49,13 +49,13 @@ bool MySQL::connect()
     if (p != nullptr) {
         // 设置中文编码
         if (mysql_query(_conn, "set names gbk") != 0) {
-            LOG_WARN << "Failed to set charset: " << mysql_error(_conn);
+            LOG_ERROR("Failed to set charset: %s", mysql_error(_conn));
         }
         _connected = true;
-        LOG_INFO << "MySQL connected successfully to database: " << dbname;
+        LOG_INFO("MySQL connected successfully to database: %s", dbname.c_str());
         return true;
     } else {
-        LOG_ERROR << "MySQL connection failed: " << mysql_error(_conn);
+        LOG_ERROR("MySQL connection failed: %s", mysql_error(_conn));
         _connected = false;
         return false;
     }
@@ -65,17 +65,18 @@ bool MySQL::connect()
 bool MySQL::update(const string& sql)
 {
     if (_conn == nullptr || !_connected) {
-        LOG_ERROR << "MySQL not connected";
+        LOG_ERROR("MySQL not connected");
         return false;
     }
     
     if (mysql_query(_conn, sql.c_str()) != 0) {
-        LOG_ERROR << "Update failed: " << sql 
-                  << "\nError: " << mysql_error(_conn);
+        LOG_ERROR("Update failed: %s\nError: %s",
+                  sql.c_str(),
+                  mysql_error(_conn));
         return false;
     }
     
-    LOG_DEBUG << "Update success: " << sql;
+    LOG_DEBUG("Update success: %s", sql.c_str());
     return true;
 }
 
@@ -83,19 +84,20 @@ bool MySQL::update(const string& sql)
 MYSQL_RES* MySQL::query(const string& sql)
 {
     if (_conn == nullptr || !_connected) {
-        LOG_ERROR << "MySQL not connected";
+        LOG_ERROR("MySQL not connected");
         return nullptr;
     }
     
     if (mysql_query(_conn, sql.c_str()) != 0) {
-        LOG_ERROR << "Query failed: " << sql 
-                  << "\nError: " << mysql_error(_conn);
+        LOG_ERROR("Query failed: %s\nError: %s",
+                  sql.c_str(),
+                  mysql_error(_conn));
         return nullptr;
     }
     
     MYSQL_RES* result = mysql_use_result(_conn);
     if (result == nullptr) {
-        LOG_ERROR << "mysql_use_result failed: " << mysql_error(_conn);
+        LOG_ERROR("mysql_use_result failed: %s", mysql_error(_conn));
     }
     
     return result;

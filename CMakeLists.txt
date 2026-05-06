@@ -15,7 +15,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 # ① ${PROJECT_SOURCE_DIR}
 # 这才是 → 你的项目根目录（就是放 CMakeLists.txt 的那个文件夹）
 # ② ${PROJECT_BINARY_DIR}
-# 这是 → 你执行 cmake 命令的目录（通常就是 build 文件夹）
+# 执行的 cmake 命令的目录（通常就是 build 文件夹）
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/include/server)
 include_directories(${PROJECT_SOURCE_DIR}/thirdparty)
