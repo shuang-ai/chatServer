@@ -302,6 +302,10 @@ void readTaskHandler(int clientfd)
     {
         char buffer[1024] = {0};
         int len = recv(clientfd, buffer, 1024, 0); // 阻塞了
+        string recvbuf(buffer, len);
+
+cout << "recv len = " << len << endl;
+cout << "recv data = [" << recvbuf << "] "<<string(buffer, len) << endl;
         if (-1 == len || 0 == len)
         {
             close(clientfd);
@@ -570,7 +574,7 @@ void loginout(int clientfd, string)
     js["id"] = g_currentUser.getId();
     string buffer = js.dump();
 
-    int len = send(clientfd, buffer.c_str(), strlen(buffer.c_str()) + 1, 0);
+    int len = send(clientfd, buffer.c_str(), strlen(buffer.c_str()), 0);
     if (-1 == len)
     {
         cerr << "send loginout msg error -> " << buffer << endl;
@@ -579,7 +583,9 @@ void loginout(int clientfd, string)
     {
         isMainMenuRunning = false;
     }
-    close(clientfd);
+    // 这里关闭了的话，如果立马login调用的是这个关闭了的clientfd
+    // 此时是就会发送失败
+    // close(clientfd);
 }
 
 // 获取系统时间（聊天信息需要添加时间信息）

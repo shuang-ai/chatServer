@@ -3,6 +3,7 @@
 #include"json.hpp"
 #include "chatservice.hpp"
 #include <mymuduo/Logger.h>
+#include<iostream>
 #define ERROR_MSG 999
 using json=nlohmann::json;
 
@@ -35,6 +36,10 @@ void ChatServer::onConnection(const TcpConnectionPtr &conn)
         ChatService::instance()->clientCloseException(conn);
         conn->shutdown();
     }
+    else{
+        std::cout<<"connection success"<<std::endl;
+    }
+
 }
 /**
  * @brief 当 TCP 连接上有消息到达时的回调函数

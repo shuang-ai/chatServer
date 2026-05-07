@@ -41,7 +41,7 @@ void ChatService::login(const TcpConnectionPtr &conn, json &js, Timestamp time){
     // }
     
     // 1. 检查必要字段是否存在
-    if (!js.contains("name") || !js.contains("password"))
+    if (!js.contains("id") || !js.contains("password"))
     {
         json response;
         response["msgid"] = LOGIN_MSG_ACK;
@@ -52,11 +52,11 @@ void ChatService::login(const TcpConnectionPtr &conn, json &js, Timestamp time){
     }
     
     // 2. 获取用户名和密码
-    string name = js["name"].get<string>();
+    int id = js["id"].get<int>();
     string pwd = js["password"].get<string>();
     
-    // 3. 根据用户名查询用户
-    User user = _userModel.queryByName(name);
+    // 3. 根据用户id查询用户
+    User user = _userModel.query(id);
     
     // 4. 验证用户是否存在
     if (user.getId() == -1)

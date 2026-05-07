@@ -38,6 +38,7 @@ public:
     // 获取消息对应的处理方法
     MsgHander getHandler(int msgid);
 
+    // 处理客户端异常退出
     void clientCloseException(const TcpConnectionPtr &conn);
     
     // 创建群组
@@ -55,6 +56,7 @@ public:
     // 服务器异常，业务重置方法
     void reset();
 
+    // 从redis消息队列中获取订阅的消息
     void handleRedisSubscribeMessage(int userid, string msg);
 
 private:
