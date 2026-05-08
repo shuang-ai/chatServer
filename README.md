@@ -84,7 +84,7 @@ chatServer/
 │   └── chat.sql           # MySQL 建表及初始化脚本
 ├── include/               # 头文件
 ├── test/                  # 单元测试 / 压测脚本
-├── thirdparty/            # 第三方依赖（如 hiredis、mysql-connector）
+├── thirdparty/            # 第三方依赖（json.hpp）
 ├── run.sh                 # 一键编译脚本
 ├── CMakeLists.txt
 └── README.md
