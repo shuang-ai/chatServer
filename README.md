@@ -1,4 +1,3 @@
-```markdown
 # ChatServer - 集群聊天服务器
 
 本项目是一个**高并发、可扩展的集群聊天服务器**，基于自研的 `my_muduo` 网络库实现。  
@@ -16,8 +15,6 @@ https://github.com/shuang-ai/muduo.git
 - **负载均衡**：Nginx TCP 负载均衡（集群部署）  
 - **跨服通信**：Redis 发布/订阅  
 - **数据存储**：MySQL（用户/离线消息/好友关系等）
-
----
 
 ## 快速开始
 
