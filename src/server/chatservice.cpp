@@ -51,7 +51,7 @@ void ChatService::login(const TcpConnectionPtr &conn, json &js, Timestamp time){
         return;
     }
     
-    // 2. 获取用户名和密码
+    // 2. 获取id和密码
     int id = js["id"].get<int>();
     string pwd = js["password"].get<string>();
     
@@ -202,6 +202,7 @@ void ChatService::reg(const TcpConnectionPtr &conn, json &js, Timestamp time)
     }
 }
 
+// 获取消息对应的处理方法
 MsgHander ChatService::getHandler(int msgid)
 {
     auto it = _msgHandlerMap.find(msgid);
@@ -272,7 +273,7 @@ void ChatService::oneChat(const TcpConnectionPtr &conn, json &js, Timestamp time
         }
     }
 
-    // 查询todi是否在线
+    // 查询toId是否在线
     User user = _userModel.query(toId);
     if (user.getState() == "online")
     {
